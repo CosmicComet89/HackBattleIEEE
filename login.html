@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="welcome copy.css" />
+  </head>
+  <body>
+    <div class="logo" style="color:#fff0ef">EmailScrapper</div>
+    <div>
+    </div>
+    <div id = "authForm"></div>
+
+    <h1>Login</h1>
+    <p>Please Enter your login details</p>
+    
+    <form autocomplete="on">
+      <fieldset>
+        
+        <label for="email">Enter Your Email: <input id="email" name="email" type="email" required /></label>
+        <label for="password">Create a New Password: <input id="password" name="password" type="password" autocomplete=":on" required /></label>
+      </fieldset>
+      
+     
+        
+      
+      <button id="signup_button" >Sign in</button>
+      
+    </form>
+    <div class="sidebar2">
+      <img src="undraw_cat_epte.svg">
+
+
+</body>
+ 
+</html>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
+  import {
+          getAuth,
+          createUserWithEmailAndPassword,
+          signInWithEmailAndPassword,
+          onAuthStateChanged,
+          signOut
+      //Update the below URL with the appropriate version if necessary.
+      } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+  import {
+getDatabase,
+ref,
+set,
+child, 
+update,
+remove
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+  apiKey: "AIzaSyD4cgUqaWJeWclZKr3SFXMSpPDQGkhnfq4",
+  authDomain: "forhackbattlev1.firebaseapp.com",
+  projectId: "forhackbattlev1",
+  storageBucket: "forhackbattlev1.appspot.com",
+  messagingSenderId: "1067916479395",
+  appId: "1:1067916479395:web:96695cdbda19e80a2ea816",
+  measurementId: "G-ZRSW7XLF2E"
+};
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const database = getDatabase(app);
+  const usersRef = ref(database,'users/');
+
+  
+
+      const email = document.querySelector("#email");
+      const authForm = document.querySelector("#authForm");
+      const password= document.querySelector("#password");
+      
+      
+      const signin_button = document.querySelector("#signin_button");
+      
+
+      
+     
+      
+signin_button.addEventListener('click', function (event) {
+  event.preventDefault();
+ 
+      const email = document.querySelector("#email").value;
+      const authForm = document.querySelector("#authForm").value;
+      const password= document.querySelector("#password").value;
+      
+     
+      const signin_button = document.querySelector("#signin_button").value;
+      
+     
+  
+  
+  console.log("Hi");
+
+
+  signInWithEmailAndPassword(auth, email, password)
+  
+  .then((userCredential) => {
+    const user = userCredential.user;
+    
+    
+
+    
+    console.log(user);
+    alert("You have logged in Successfully!");
+    window.location.href = "finalhome.html";
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorCode, errorMessage);
+    alert("Enter correct credentials")
+  });
+});
+
+
+
+
+
+</script>
+     
+    </body>
+   
+  </html>
