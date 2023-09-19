@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="welcome copy.css" />
+  </head>
+  <body>
+    <div class="logo" style="color:#fff0ef">EmailScrapper</div>
+    <div id = "authForm"></div>
+    
+    <h1>Sign Up</h1>
+    <p>Please fill out the required information</p>
+    <div class="sidebar2">
+      <img src="undraw_online_test_re_kyfx.svg">
+    </div>
+
+    
+    <form autocomplete="on">
+      <fieldset>
+        <label for="first_name">Enter Your First Name: <input id="first_name" name="first_name" type="text" required /></label>
+        <label for="last_name">Enter Your Last Name: <input id="last_name" name="last_name" type="text" required /></label>
+        <label for="email">Enter Your Email: <input id="email" name="email" type="email" required /></label>
+        <label for="password">Create a New Password: <input id="password" name="password" type="password" autocomplete=":on" required /></label>
+      </fieldset>
+      <fieldset>
+        <label for="individual_account"><input id="individual_account" type="radio" name="account-type" class="inline" /></label>
+        <label for="business_account"><input id="business_account" type="radio" name="account-type" class="inline" /></label>
+       
+      </fieldset>
+      <fieldset>
+
+        <label for="age">Enter your reg number<input id="age"/></label>
+        
+        </label>
+        
+      </fieldset>
+      
+      <button id="signup_button">Sign up</button>
+      
+      <a href="loginpage.html"><p>Already have an account?</p></a>
+    </form>
+
+  </div>
+  <div id = "redirect">
+    <h2> SUCCESSFULLY SIGNED IN</h2>
+  </div>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-analytics.js";
+    import {
+            getAuth,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            onAuthStateChanged,
+            signOut
+        //Update the below URL with the appropriate version if necessary.
+        } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    import {
+  getDatabase,
+  ref,
+  set,
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+  apiKey: "AIzaSyD4cgUqaWJeWclZKr3SFXMSpPDQGkhnfq4",
+  authDomain: "forhackbattlev1.firebaseapp.com",
+  projectId: "forhackbattlev1",
+  storageBucket: "forhackbattlev1.appspot.com",
+  messagingSenderId: "1067916479395",
+  appId: "1:1067916479395:web:96695cdbda19e80a2ea816",
+  measurementId: "G-ZRSW7XLF2E"
+};
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+    const usersRef = ref(database,'users/');
+
+
+        const first_name = document.querySelector("#first_name");
+        const last_name = document.querySelector("#last_name");
+        const email = document.querySelector("#email");
+        const authForm = document.querySelector("#authForm");
+        const password= document.querySelector("#password");
+        const individual_account = document.querySelector("#individual_account");
+        const business_account = document.querySelector("#business_account");
+        const age = document.querySelector("#age");
+
+        const signup_button = document.querySelector("#signup_button");
+        const redirect = document.querySelector("#redirect");
+
+        
+       
+        redirect.style.display = 'none';
+  signup_button.addEventListener('click', function (event) {
+    event.preventDefault();
+    const first_name = document.querySelector("#first_name").value;
+        const last_name = document.querySelector("#last_name").value;
+        const email = document.querySelector("#email").value;
+        const authForm = document.querySelector("#authForm").value;
+        const password= document.querySelector("#password").value;
+        
+        const age = document.querySelector("#age").value;
+
+        const signup_button = document.querySelector("#signup_button").value;
+        const redirect = document.querySelector("#redirect").value;
+    const signUpIndividualAccount = individual_account.checked;
+    const signUpBusinessAccount = business_account.checked;
+    
+
+
+
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      const reference = ref(database, "users/" + user.uid);
+      set(reference, {
+          first_name : first_name,
+          last_name : last_name,
+          email : email,
+          password : password,
+          age : age,
+          signUpIndividualAccount :signUpIndividualAccount,
+          signUpBusinessAccount: signUpBusinessAccount
+
+
+
+
+
+
+        })
+        window.location.href = "finalhome.html";
+
+      
+      console.log(user);
+      alert("Your account has been created!");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
+
+
+});
